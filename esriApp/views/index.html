@@ -4,6 +4,39 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Get started with SceneView - Create a 3D map</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
+    <script src="https://js.arcgis.com/4.1/"></script>
+    <script>
+        require([
+            "esri/views/SceneView",
+            "esri/WebScene",
+            "dojo/dom",
+            "dojo/domReady!"
+        ], function(SceneView, WebScene, dom){
+
+            var titleDiv = dom.byId("titleDiv");
+
+            var scene = new WebScene({
+                portalItem: { // autocasts as new PortalItem()
+                    id: "3a9976baef9240ab8645ee25c7e9c096"
+                }
+            });
+
+
+            var view = new SceneView({
+                map: scene,
+                container: "viewDiv",
+                padding: {
+                    top: 40
+                }
+            });
+
+            view.then(function(){
+                var title = scene.portalItem.title;
+                titleDiv.innerHTML = title;
+            });
+        });
+    </script>
     <style>
         html, body, #viewDiv {
             padding: 0;
@@ -11,29 +44,26 @@
             height: 100%;
             width: 100%;
         }
+        #titleDiv {
+            background-color: lightgray;
+            color: black;
+            padding: 5px;
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            right: 0;
+            font-size: 20pt;
+            font-weight: bolder;
+            width: 100%;
+            height: 30px;
+            text-align: center;
+            opacity: 0.75;
+        }
     </style>
-    <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
-    <script src="https://js.arcgis.com/4.1/"></script>
-    <script>
-        require([
-            "esri/Map",
-            "esri/views/SceneView",
-            "dojo/domReady!"
-        ], function(Map, SceneView){
-            var map = new Map({
-                basemap: "streets",
-                ground: "world-elevation"
-            });
-
-
-            var view = new SceneView({
-                container: "viewDiv",
-                map: map
-            });
-        });
-    </script>
 </head>
 <body>
-<div id="viewDiv"></div>
+<div id="viewDiv">
+    <div id="titleDiv"></div>
+</div>
 </body>
 </html>
